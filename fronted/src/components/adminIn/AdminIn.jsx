@@ -1,41 +1,24 @@
-import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Adminin.css'; // Asegúrate de importar tu archivo CSS
+import useAdminin from './useAdminin';
+import React from 'react';
+import './Adminin.css';
+import Header from '../header/Header';
+import { Link } from 'react-router-dom';
+
 
 export default function AdminIn() {
-  const [postulantes, setPostulantes] = useState([]);
-  const [filteredPostulantes, setFilteredPostulantes] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isLoading, setIsLoading] = useState(true); // Estado para controlar el indicador de carga
+  const {
+    postulantes,
+    filteredPostulantes,
+    searchTerm,
+    isLoading,
+    setSearchTerm,
+    setSortOrder,
+    setFilterAsignatura,
+    setNotaRange,
+    setFilteredPostulantes
+  } = useAdminin();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const cargarPostulantes = async () => {
-      try {
-        const response = await fetch('http://localhost:4000/api/adminin');
-        if (!response.ok) {
-          throw new Error('Hubo un problema al obtener los datos');
-        }
-        const data = await response.json();
-        setPostulantes(data.postulantes); // Asumiendo que la API devuelve un objeto con una propiedad postulantes
-        setFilteredPostulantes(data.postulantes); // Inicializar los postulantes filtrados
-      } catch (error) {
-        console.error('Error al cargar los postulantes:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    cargarPostulantes();
-  }, []);
-
-  useEffect(() => {
-    // Filtrar postulantes cuando el searchTerm cambie
-    const results = postulantes.filter(postulante =>
-      postulante.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      postulante.rut.includes(searchTerm)
-    );
-    setFilteredPostulantes(results);
-  }, [searchTerm, postulantes]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -45,36 +28,121 @@ export default function AdminIn() {
     navigate(`/adminin/${item.rut}`, { state: { postulante: item } });
   };
 
+  const handleClearFilters = () => {
+    setSearchTerm('');
+    setSortOrder('asc');
+    setFilterAsignatura('');
+    setNotaRange({ min: 1.0, max: 7.0 });
+  };
+
+  const sortNotes = (ascending = true) => {
+    setFilteredPostulantes(prevPostulantes => {
+      const postulantesSorted = [...prevPostulantes];
+      postulantesSorted.sort((a, b) => {
+        return ascending ? a.nota - b.nota : b.nota - a.nota;
+      });
+      return postulantesSorted;
+    });
+  };
+
+  const filterByApproval = (approved) => {
+    const results = postulantes.filter(postulante => postulante.estado === (approved ? 'Aprobado' : 'Rechazado'));
+    setFilteredPostulantes(results);
+  };
+
   if (isLoading) {
     return <div className="loader">Cargando...</div>;
   }
 
+  function formatRut(rut) {
+    // Elimina cualquier carácter que no sea dígito o 'k'
+    const cleanRut = rut.replace(/[^0-9kK]/g, '');
+
+    // Separa el dígito verificador del resto del RUT
+    const body = cleanRut.slice(0, -1);
+    const dv = cleanRut.slice(-1).toUpperCase();
+
+    // Formatea el cuerpo del RUT con puntos
+    const formattedBody = body.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+    // Retorna el RUT formateado
+    return `${formattedBody}-${dv}`;
+  }
+
+  function codigoToCarrera(codigo) {
+    const carreras = {
+      21030: "Ingeniería en Informática",
+      21041: "Ingeniería Civil en Computación mención Informática",
+      21049: "Ciencia de Datos"
+    };
+
+    return carreras[codigo];
+  }
+
+
+
   return (
-    <div className="container mt-5 mb-5">
-      <div className="row mb-4">
-        <div className="col-12">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Buscar por nombre o RUT..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
-        </div>
-      </div>
-      <div className="row">
-        {filteredPostulantes.map((item, index) => (
-          <div key={index} className="col-sm-6 col-lg-4 mb-4" onClick={() => handleItemClick(item)}>
-            <div className="card h-100">
-              <div className="card-body">
-                <h5 className="card-title">{item.nombre}</h5>
-                <h6 className="card-subtitle mb-2 text-muted">{item.asignatura}</h6>
-                <p className="card-text">{item.nota}</p>
-              </div>
+
+    <>
+      <Header />
+      <div className="container-adminin">
+        <div className='container'>
+
+          <div className="container-h1">
+            <h1>Administrador</h1>
+
+          </div>
+          <div className="filters">
+            <div className="container-search">
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Buscar por nombre o RUT..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
+            </div>
+
+            <div className="filter-buttons mt-5">
+              <Link to='/admin/registrar-profesor'>
+                <button className='filter-btn' >Registar Profesor</button>
+              </Link>
+              <button className="filter-btn" onClick={() => filterByApproval(true)}>Aprobados</button>
+              <button className="filter-btn" onClick={() => filterByApproval(false)}>Rechazados</button>
+              <button className="filter-btn" onClick={() => sortNotes(true)}>Ordenar Nota ↗</button>
+              <button className="filter-btn" onClick={() => sortNotes(false)}>Ordenar Nota ↘</button>
+            </div>
+            <div className='clean-filter'>
+              <button className='btn btn-secondary' onClick={handleClearFilters}>Limpiar Filtros</button>
             </div>
           </div>
-        ))}
+
+
+
+          <div className="admin-container">
+            {filteredPostulantes.map((item, index) => (
+              <div key={index} className="row-container" onClick={() => handleItemClick(item)}>
+                <div className="row-content">
+                  <div className='nombre'>
+                    <h5 className="row-title">{item.nombre}</h5>
+                    <p className='row-subtitle'>{formatRut(item.rut)}</p>
+                  </div>
+
+                  <div className='asignatura'>
+                    <h6 className="row-tittle">{item.asignatura}</h6>
+                    <p className='row-subtittle'>{codigoToCarrera(item.codigo_carrera)}</p>
+                  </div>
+                  <div className='nota'>
+
+                    <p className="row-text">{item.nota}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
+    </>
+
   );
 }
