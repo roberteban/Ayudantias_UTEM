@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Header from '../header/Header';
+import {API} from '../../API'
 
 export default function RegistrarProfesor() {
-
+    const API_URL = `${API}/api/register-profesor`;
     const initialState = {
         nombre: '',
         correo: '',
@@ -31,7 +32,7 @@ export default function RegistrarProfesor() {
         console.log(formData)
 
         try {
-            const response = await fetch('http://localhost:4000/api/register-profesor', {
+            const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)

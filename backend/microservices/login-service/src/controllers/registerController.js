@@ -4,12 +4,14 @@ const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const sgMail = require("@sendgrid/mail");
 const Profesor = require("../models/loginProfesorModel"); // Importa el modelo
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
+const config = require("./config")
+sgMail.setApiKey(config.API_EMAIL);
 exports.sendEmail = async (req, res) => {
   const { nombre, correo } = req.body;
+
   const contrasena = crypto.randomBytes(3).toString("hex");
   const contrasenaHash = await bcrypt.hash(contrasena, 10);
+
 
   try {
     // Configurar el mensaje de correo electrónico

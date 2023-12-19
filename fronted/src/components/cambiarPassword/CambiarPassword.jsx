@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import Header from '../header/Header';
 import { jwtDecode } from "jwt-decode";
-
+import { API } from '../../API';
 
 export default function CambiarPassword() {
-  const API_URL = "http://localhost:4000"
+  const API_URL = API
   const [contraseñaActual, setContraseñaActual] = useState('');
   const [nuevaContraseña, setNuevaContraseña] = useState('');
   const [repetirNuevaContraseña, setRepetirNuevaContraseña] = useState('');
