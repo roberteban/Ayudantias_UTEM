@@ -21,10 +21,9 @@ export default function Register() {
 
 
   const carreraOptions = [
-    { value: "21049", label: "21049 - Ciencia de Datos" },
     { value: "21030", label: "21030 - Ingeniería en Informática" },
     { value: "21041", label: "21041 - Ingeniería Civil en Computación mención Informática" },
-
+    { value: "21049", label: "21049 - Ingeniería Civil en Ciencias de Datos" },
   ];
 
   const asignaturaOptions = [
