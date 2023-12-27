@@ -23,7 +23,7 @@ export default function Home() {
         <div className="image-container">
           <img src={ImagenHome} alt="Descripción" />
           <div className="centered-text">
-            <h1>POSTULACION DE AYUDANTIAS</h1>
+            <h1>POSTULACIÓN DE AYUDANTÍAS</h1>
             <p>¿Deseas ser ayudante?</p>
             <div className="button-container">
               <Link to="/postular" className="btn btn-primary">Postular</Link>
