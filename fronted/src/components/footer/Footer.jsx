@@ -4,7 +4,7 @@ import './Footer.css';
 function Footer() {
   return (
     <footer className="footer">
-      <p className="footer-text">Developed by <span className="footer-username">@roberteban</span></p>
+      <p className="footer-text">Developed by <span className="footer-username">Escuela de Informática</span></p>
     </footer>
   );
 }
