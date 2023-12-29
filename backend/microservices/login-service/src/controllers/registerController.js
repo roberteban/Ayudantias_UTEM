@@ -17,7 +17,7 @@ exports.sendEmail = async (req, res) => {
     // Configurar el mensaje de correo electrónico
     const msg = {
       to: correo,
-      from: "fcastro@utem.cl", // Reemplaza con tu dirección de correo verificada en SendGrid
+      from: "rcastillor@utem.cl", // Reemplaza con tu dirección de correo verificada en SendGrid
       subject: "Bienvenido a la plataforma",
       text: `Hola ${nombre},\n\nTu cuenta ha sido creada. Tu contraseña es: ${contrasena}`,
     };

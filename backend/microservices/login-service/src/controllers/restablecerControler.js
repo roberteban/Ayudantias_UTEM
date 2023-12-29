@@ -34,7 +34,7 @@ exports.restablecerPassword = async (req, res) => {
     // Configurar el mensaje de correo electrónico
     const msg = {
       to: correo,
-      from: "fcastro@utem.cl", // Reemplaza con tu dirección de correo verificada en SendGrid
+      from: "rcastillor@utem.cl", // Reemplaza con tu dirección de correo verificada en SendGrid
       subject: "Restablecimiento de contraseña",
       text: `Hola,\n\nTu nueva contraseña temporal es: ${nuevaContrasena}\nPor favor cambia esta contraseña lo antes posible.`,
     };
