@@ -3,7 +3,8 @@ const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const sgMail = require("@sendgrid/mail");
 const config = require("./config")
-sgMail.setApiKey(config.API_EMAIL);
+const api = process.env.API_EMAIL;
+sgMail.setApiKey( api|| config.API_EMAIL);
 
 const Profesor = require("../models/loginProfesorModel"); // Importa el modelo de profesor
 const Administrador = require("../models/loginAdminModel"); // Importa el modelo de administrador
@@ -42,6 +43,8 @@ exports.restablecerPassword = async (req, res) => {
     // Enviar el correo electrónico
     await sgMail.send(msg);
     res.status(200).send("Correo con la nueva contraseña temporal enviado");
+
+    
   } catch (error) {
     console.error("Error al procesar la solicitud:", error);
     res.status(500).send("Error al procesar la solicitud");

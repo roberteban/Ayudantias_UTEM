@@ -73,7 +73,7 @@ export default function Profesor() {
     const carreras = {
       21030: "Ingeniería en Informática",
       21041: "Ingeniería Civil en Computación mención Informática",
-      21049: "Ingeniería Civil en Ciencias de Datos"
+      21049: "Ciencia de Datos"
     };
 
     return carreras[codigo];

@@ -9,20 +9,20 @@ const cardData = [
     {
         to: "/requisitos",
         icon: <IconoPostular/>,
-        title: "Postulación a Ayudantías",
-        content: "¿Eres bueno programando? ¡Postula a la ayudantía que mejor domines!"
+        title: "Postulación Ayudantias",
+        content: "¿Eres seco programando? ¡Postula a la ayudantia que mejor domines!"
     },
     {
         to: "/estado",
         icon: <IconoEstado/>,
-        title: "Estado de Postulación",
+        title: "Estado de tu postulación",
         content: "¿Quieres conocer el estado de tu proceso? ¡Ingresa Aquí!"
     },
     {
         to: "/login",
         icon: <IconoProfesores/>,
         title: "Profesores",
-        content: "¡Ingresa al sistema aquí!"
+        content: "¡Ingresa al sistema aqui!"
     },
     
 ];
