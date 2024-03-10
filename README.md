@@ -1,2 +1,2 @@
 # Ayudantias_UTEM
-Sistema de postulacion de ayudantias en la Escuela de Informatica de la UTEM
+Sistema de postulacion de ayudantias para la Escuela de Informatica de la UTEM
