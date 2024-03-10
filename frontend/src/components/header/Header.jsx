@@ -5,6 +5,7 @@ import { Navbar, Nav, Offcanvas, Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import { useGenerarPdf } from './useGenerarPdf';
+import { XIcon, MenuIcon } from '@heroicons/react/solid'; // Asumiendo que estás usando Heroicons
 
 function Header() {
 
@@ -26,6 +27,7 @@ function Header() {
     ) : (
       localStorage.removeItem('tokenProfesor')
     )
+    handleClose();
     navigate('/');
   }
 
@@ -34,31 +36,17 @@ function Header() {
     <Navbar bg="" variant="" fixed="" expand="lg" className='navbar'>
 
       <Navbar.Brand href="/"></Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" className="d-lg-none" onClick={handleShow} />
+
+      <Navbar.Toggle aria-controls="basic-navbar-nav" className="d-lg-none invisible" onClick={handleShow} />
+      <button onClick={handleShow} className="d-lg-none text-white ">
+        <MenuIcon className="h-10 w-10 mr-7" />
+      </button>
       <Navbar.Collapse id="basic-navbar-nav" className="d-none d-lg-flex">
         <div className="logo"></div>
         <Nav className="ms-auto">
 
 
           <Nav.Link as={Link} to="/" onClick={handleClose} className="menu-link">Inicio</Nav.Link>
-
-          {tokenProfesor || tokenAdmin ? (
-            <Dropdown>
-              <Dropdown.Toggle as={Nav.Link} variant="" id="dropdown-profesor" className="menu-link">
-                Perfil
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item as={Link} to="/cambiar-contrasena">Cambiar contraseña</Dropdown.Item>
-                <Dropdown.Item onClick={generarPDF}>Generar PDF</Dropdown.Item>
-              </Dropdown.Menu>
-
-
-            </Dropdown>
-          ) : <></>}
-
-
-
 
           {!tokenAdmin && !tokenProfesor ? (
             <Nav.Link as={Link} to="/requisitos" onClick={handleClose} className="menu-link">Postular</Nav.Link>
@@ -70,8 +58,23 @@ function Header() {
           ) : (<></>)}
 
           {tokenAdmin ? (
-            <Nav.Link as={Link} to="/requisitos-admin" onClick={handleClose} className="menu-link">Administrador</Nav.Link>
-          ) : <></>}
+            <Dropdown>
+              <Dropdown.Toggle as={Nav.Link} variant="" id="dropdown-profesor" className="menu-link">
+                Administrador
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+
+                <Dropdown.Item as={Link} to="/admin">Ver Lista de Postulantes</Dropdown.Item>
+                <Dropdown.Item as={Link} to="/admin/lista-profesores">Ver Lista de Profesores</Dropdown.Item>
+                <Dropdown.Item as={Link} to="/admin/ayudantes">Ver Lista de Ayudantes</Dropdown.Item>
+                <Dropdown.Item as={Link} to="/admin/registrar-profesor">Registrar Profesor</Dropdown.Item>
+                <Dropdown.Item as={Link} to="/requisitos-admin">Requisitos</Dropdown.Item>
+                <Dropdown.Item onClick={generarPDF}>Generar PDF</Dropdown.Item>
+
+              </Dropdown.Menu>
+
+            </Dropdown>) : <></>}
 
           {tokenProfesor ? (
             <Nav.Link as={Link} to="/profesor" onClick={handleClose} className="menu-link">Profesor</Nav.Link>
@@ -82,43 +85,87 @@ function Header() {
 
           {!tokenAdmin && !tokenProfesor ? (
             <Nav.Link as={Link} to="/login" onClick={handleClose} className="menu-link">Ingresar</Nav.Link>
-          ) : (<Nav.Link onClick={closeSesion} className="menu-link">Salir</Nav.Link>)}
+          ) : (null)}
+          {tokenProfesor || tokenAdmin ? (
+            <Dropdown>
+              <Dropdown.Toggle as={Nav.Link} variant="" id="dropdown-profesor" className="menu-link">
+                Perfil
+              </Dropdown.Toggle>
 
+              <Dropdown.Menu style={{ left: 'calc(100% - 2px)', transform: 'translateX(-100%)' }}>
+                <Dropdown.Item as={Link} to="/cambiar-contrasena">Cambiar contraseña</Dropdown.Item>
+                <Dropdown.Item onClick={closeSesion}>Salir</Dropdown.Item>
+                {/* <Dropdown.Item onClick={generarPDF}>Generar PDF</Dropdown.Item> */}
+              </Dropdown.Menu>
+            </Dropdown>
+
+          ) : <></>}
 
 
         </Nav>
       </Navbar.Collapse>
 
-      <Offcanvas show={show} onHide={handleClose} placement="end" className="d-lg-none">
-        <Offcanvas.Header closeButton>
+      {/* MENU PARA MOBILE */}
+
+      <Offcanvas show={show} onHide={handleClose} placement="end" className="d-lg-none" style={{ width: '60%' }}>
+
+        <Offcanvas.Header >
           <Offcanvas.Title>Menú</Offcanvas.Title>
+          <button type="button" onClick={handleClose} className="text-black">
+            <XIcon className="h-6 w-6" /> {/* Ajusta el tamaño según necesites */}
+          </button>
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Nav className="flex-column">
             <Nav.Link as={Link} to="/" onClick={handleClose}>Inicio</Nav.Link>
 
+            {
+              !tokenAdmin && !tokenProfesor ? (
+                <Nav.Link as={Link} to="/requisitos" onClick={handleClose}>Postular</Nav.Link>
+              ) : (null
+              )
+            }
+
             {!tokenAdmin && !tokenProfesor ? (
-              <Nav.Link as={Link} to="/requisitos" onClick={handleClose}>Postular</Nav.Link>
+              <Nav.Link as={Link} to="/estado" onClick={handleClose}>Ver Estado</Nav.Link>
             ) : null}
-
-            <Nav.Link as={Link} to="/estado" onClick={handleClose}>Ver Estado</Nav.Link>
-
-            {tokenAdmin ? (<Nav.Link as={Link} to="/requisitos-admin" onClick={handleClose} >Administrador</Nav.Link>
-            ) : null}
-
-            {tokenProfesor ? (<Nav.Link as={Link} to="/profesor" onClick={handleClose} >Profesor</Nav.Link>
-            ) : null}
-
-
-            {tokenAdmin ? (<Nav.Link as={Link} to="/cambiar-contrasena" onClick={handleClose} >Cambiar Contraseña</Nav.Link>) : null}
-            {tokenAdmin ? (<Nav.Link onClick={generarPDF} >Generar PDF</Nav.Link>) : null}
 
             {!tokenAdmin && !tokenProfesor ?
               (<Nav.Link as={Link} to="/login" onClick={handleClose} >Ingresar</Nav.Link>
               ) :
-              (<Nav.Link onClick={closeSesion} >Salir</Nav.Link>)}
+              (null)}
           </Nav>
+
+          {tokenAdmin && (
+            <Nav className="flex-column">
+              <Nav.Link as={Link} to="/admin" onClick={handleClose}>Ver Lista de Postulantes</Nav.Link>
+              <Nav.Link as={Link} to="/admin/lista-profesores" onClick={handleClose}>Ver Lista de Profesores</Nav.Link>
+              <Nav.Link as={Link} to="/admin/ayudantes" onClick={handleClose}>Ver Lista de Ayudantes</Nav.Link>
+              <Nav.Link as={Link} to="/admin/registrar-profesor" onClick={handleClose}>Registrar Profesor</Nav.Link>
+              <Nav.Link as={Link} to="/requisitos-admin" onClick={handleClose}>Requisitos</Nav.Link>
+              <Nav.Link onClick={() => { generarPDF(); handleClose(); }}>Generar PDF</Nav.Link>
+              <Nav.Link as={Link} to="/cambiar-contrasena" onClick={handleClose}>Cambiar Contraseña</Nav.Link>
+              <Nav.Link onClick={closeSesion}>Salir</Nav.Link>
+
+
+            </Nav>
+          )}
+
+          {/* Enlace para Profesor */}
+          {
+            tokenProfesor && (
+              <Nav className='flex-colum'>
+                <Nav.Link as={Link} to="/cambiar-contrasena" onClick={handleClose}>Cambiar Contraseña</Nav.Link>
+                <Nav.Link onClick={closeSesion}>Salir</Nav.Link>
+
+              </Nav>
+            )
+          }
+
         </Offcanvas.Body>
+
+
+
       </Offcanvas>
     </Navbar>
   );

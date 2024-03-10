@@ -3,25 +3,30 @@ import React from "react";
 import Home from "./components/home/Home";
 import State from "./components/state/State";
 import Admin from "./components/admin/Admin";
-import AdminIn from "./components/adminIn/AdminIn";
-import Register from "./components/register/Register";
-import Profesor from "./components/profesorin/Profesor";
-import Requisitos from "./components/requisitos/Requisitos";
-import LoginProfesor from "./components/profesor/LoginProfesor";
+import AdminIn from "./components/AadminPanel/AdminIn";
+import Register from "./components/UserRegistration/Register";
+import Requisitos from "./components/requirements/Requisitos";
+import LoginProfesor from "./components/professor/LoginProfesor";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import RequisitosAdmin from "./components/requisitosAdmin/RequisitosAdmin";
-import PostulanteDetails from "./components/postulanteDetails/PostulanteDetails";
-import RegistarProfesor from "./components/registrar-profesor/RegistrarProfesor";
-import PostulanteProfesor from "./components/postulanteDetailsProfesor/PostulanteProfesor";
+import RequisitosAdmin from "./components/RequirementsAdmin/RequisitosAdmin";
+import PostulanteDetails from "./components/ApplicantDetails/PostulanteDetails";
+import RegistarProfesor from "./components/ProfessorRegistration/RegistrarProfesor";
+import PostulanteProfesor from "./components/ApplicantDetailsForProfessor/PostulanteProfesor";
 import RutaProtegida from "./RutaProtegida";
 import RutaProtegidaAdmin from "./RutaProtegidaAdmin";
 import RutaProtegidaAmbos from "./RutaProtegidaAmbos";
-import CambiarPassword from "./components/cambiarPassword/CambiarPassword";
+import CambiarPassword from "./components/ChangePassword/CambiarPassword";
+import ListaProfesores from "./components/ListaProfesores/ListaProfesores";
+import Header from "./components/header/Header";
+import ListApplications from "./components/AadminPanel/ListApplications";
+import DetailApplicationProfessor from "./components/ApplicantDetailsForProfessor/DetailApplicationProfessor";
 
 function App() {
   return (
     <div>
+
       <Router>
+        <Header  />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/requisitos" element={<Requisitos />} />
@@ -37,14 +42,32 @@ function App() {
               </RutaProtegidaAmbos>
             }
           />
-
           <Route path="/requisitos-admin" element={<RequisitosAdmin />} />
 
           <Route
+          
             path="/admin"
             element={
               <RutaProtegidaAdmin>
                 <AdminIn />
+              </RutaProtegidaAdmin>
+            }
+          />
+
+          <Route
+            path="/admin/ayudantes"
+            element={
+              <RutaProtegidaAdmin>
+                <ListApplications />
+              </RutaProtegidaAdmin>
+            }
+          />
+
+          <Route
+            path="/admin/lista-profesores"
+            element={
+              <RutaProtegidaAdmin>
+                <ListaProfesores />
               </RutaProtegidaAdmin>
             }
           />
@@ -58,12 +81,7 @@ function App() {
             }
           />
 
-          <Route
-            path="/adminin/:rut"
-            element={
-                <PostulanteDetails />
-            }
-          />
+       
           <Route
             path="/adminin/:rut"
             element={
@@ -79,7 +97,7 @@ function App() {
             path="/profesor"
             element={
               <RutaProtegida>
-                <Profesor />
+                <PostulanteProfesor />
               </RutaProtegida>
             }
           />
@@ -88,7 +106,7 @@ function App() {
             path="/profesor/:rut"
             element={
               <RutaProtegida>
-                <PostulanteProfesor />
+                <DetailApplicationProfessor />
               </RutaProtegida>
             }
           />

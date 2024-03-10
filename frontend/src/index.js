@@ -5,11 +5,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './index.css'; // Ajusta la ruta según sea necesario
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Footer from './components/footer/Footer';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <App />
+    <Footer />
   </React.StrictMode>
 );
 

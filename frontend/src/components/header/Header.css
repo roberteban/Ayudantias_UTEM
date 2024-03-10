@@ -1,13 +1,17 @@
+
+
+.navbar-custom .dropdown-menu .dropdown-item {
+  color: #212529 !important; /* Esto es para un color negro por defecto de Bootstrap */
+}
+
+
 .navbar {
   background-color: #021c36;
-  position: sticky;
-  top: 0;
-  z-index: 100;
   width: 100vw;
   height: 10vh;
 }
 .ms-auto {
-  margin-right: 25px !important;
+  margin-right: 50px !important;
 }
 
 .nav-link:hover {
@@ -24,10 +28,12 @@
 }
 
 .logo {
-  background-image: url(./media/logo\ utem.png);
+  background-image: url(./media/logo-4.png);
   background-size: contain;
   background-repeat: no-repeat;
   height: 60px;
   width: 225px;
   margin-left: 10px;
 }
+
+

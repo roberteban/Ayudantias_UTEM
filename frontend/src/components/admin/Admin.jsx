@@ -1,140 +1,161 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import Header from '../header/Header';
-import './Admin.css'
+import './Admin.css';
 import { API } from '../../API';
+import Confirmation from './Confirmation';
+import Spinner from '../spinner/Spinner';
 
 export default function Administrador() {
-  const API_URL = API
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isResettingPassword, setIsResettingPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // Estado para el indicador de carga
-  const [errorMessage, setErrorMessage] = useState(''); // Estado para el mensaje de error
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Iniciar la carga
-    setErrorMessage(''); // Limpiar mensajes de error anteriores
-
+    setIsLoading(true);
+    setErrorMessage('');
 
     try {
-      const API = `${API_URL}/api/login`
-      console.log(API)
-
-      const response = await fetch(API, {
+      const response = await fetch(`${API}/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
       const data = await response.json();
-      console.log("Hola 1")
+
       if (response.ok) {
-        // Verificar el tipo de usuario y guardar el token correspondiente
         if (data.userType === 'administrador') {
           localStorage.setItem('tokenAdmin', data.token);
-
-          navigate('/requisitos-admin'); // Redirige al usuario administrador
+          navigate('/admin');
         } else if (data.userType === 'profesor') {
-
           localStorage.setItem('tokenProfesor', data.token);
-          navigate('/profesor'); // Redirige al usuario profesor
+          localStorage.setItem('emailProfesor', email);
+          localStorage.setItem('idProfesor', data.id_profesor)
+          navigate('/profesor');
         }
       } else {
-        setErrorMessage(data.message || 'Credenciales incorrectas'); // Establecer mensaje de error
+        setErrorMessage(data.message || 'Credenciales incorrectas');
       }
     } catch (error) {
       console.error('Error durante el inicio de sesión:', error);
-      setErrorMessage('No hay credenciales validas');
+      setErrorMessage('No hay credenciales válidas');
     } finally {
-      setIsLoading(false); // Finalizar la carga
+      setIsLoading(false);
     }
   };
 
+  const handlePasswordReset = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
 
-const handlePasswordReset = async (e) => {
-  e.preventDefault();
-  setIsLoading(true);
+    try {
+      const response = await fetch(`${API}/api/restablecer`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ correo: email })
+      });
 
-  let correo = email;
+      if (!response.ok) {
+        setErrorMessage('Error al enviar el correo');
+        return;
+      }
 
-  try {
-    const response = await fetch(`${API_URL}/api/restablecer`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ correo })
-    });
-
-    if (!response.ok) {
-      setErrorMessage('Error al enviar el correo');
-      return;
+      setShowConfirmation(true);
+      setEmail('');
+    } catch (error) {
+      console.error('Error al enviar el correo:', error);
+      setErrorMessage('Error al procesar la solicitud');
+    } finally {
+      setIsLoading(false);
     }
-    alert("Correo de restablecimiento enviado")
-    console.log('Correo de restablecimiento enviado');
+  };
 
-  } catch (error) {
-    console.error('Error al enviar el correo:', error);
-    setErrorMessage('Error al procesar la solicitud');
-  } finally {
-    setIsLoading(false);
+  const onclose = () => {
+    setShowConfirmation(false);
   }
-};
-
-
 
   return (
-
     <>
-      <Header />
-      <div className="container-admin">
-        <div className="admin-container">
-          <h1>Ingresar</h1>
+      {showConfirmation && <Confirmation show={showConfirmation} onClose={onclose} />}
+      {isLoading && (
+        <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <Spinner />
+        </div>
+      )}
 
-          {isLoading && <div>Cargando...</div>}
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
 
-          <form onSubmit={isResettingPassword ? handlePasswordReset : handleLogin}>
-            <div className="input-group">
-              <label htmlFor="email">Correo Electrónico</label>
+      <div className='flex justify-center items-center h-screen'>
+        <div className="w-full max-w-sm p-4 mx-auto bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
+          <form className="space-y-6" onSubmit={isResettingPassword ? handlePasswordReset : handleLogin}>
+            <h5 className="text-xl font-medium text-gray-900">
+              {isResettingPassword ? 'Restablecer Contraseña' : 'Iniciar Sesión'}
+            </h5>
+            {errorMessage && <div className="text-red-500">{errorMessage}</div>}
+            <div>
+              <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
+                Correo Electrónico
+              </label>
               <input
                 type="email"
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-              /* required */
+                className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="nombre@utem.cl"
+                required
               />
             </div>
             {!isResettingPassword && (
-              <div className="input-group">
-                <label htmlFor="password">Contraseña</label>
+              <div>
+                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">
+                  Contraseña
+                </label>
                 <input
                   type="password"
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                /* required */
+                  className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="••••••••"
+                  required
                 />
               </div>
             )}
-            <button type="submit" className="btn">
-              {isResettingPassword ? 'Restablecer Contraseña' : 'Iniciar Sesión'}
+            <button
+              type="submit"
+              className={`w-full flex justify-center items-center px-5 py-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-300 ${isLoading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+              disabled={isLoading}
+            >
+              {isResettingPassword ? 'Enviar enlace de restablecimiento' : 'Iniciar Sesión'}
             </button>
-
+            {!isResettingPassword ? (
+              <div className="flex items-end justify-end">
+                <button
+                  type="button"
+                  className="text-sm text-blue-700 hover:underline"
+                  onClick={() => setIsResettingPassword(true)}
+                >
+                  ¿Olvidaste tu contraseña?
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-end justify-end">
+                <button
+                  type="button"
+                  className="text-sm text-blue-700 hover:underline"
+                  onClick={() => setIsResettingPassword(false)}
+                >
+                  Volver al inicio de sesión
+                </button>
+              </div>
+            )}
           </form>
-          {!isResettingPassword ? (
-            <p className="reset-password" onClick={() => setIsResettingPassword(true)}>
-              ¿Olvidaste tu contraseña?
-            </p>
-          ) : (
-            <p className="reset-password" onClick={() => setIsResettingPassword(false)}>
-              Volver al inicio de sesión
-            </p>
-          )}
         </div>
       </div>
     </>
-
   );
 }
-
