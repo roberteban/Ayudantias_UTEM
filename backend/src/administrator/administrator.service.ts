@@ -47,7 +47,7 @@ export class AdministratorService {
         const msg = {
             to: correo,
             from: 'rcastillor@utem.cl',
-            subject: 'Postulación de Ayudantia',
+            subject: 'Postulación de Ayudantía',
             text: `Hola ${nombre},\n\nPostulación de ayudantía en: ${asignatura} ha sido ha sido Aprobada`,
             html: `
             <div style="font-family: Arial, sans-serif; color: #333;">
@@ -57,7 +57,7 @@ export class AdministratorService {
                 <p>Pronto recibirás más detalles sobre los siguientes pasos a seguir.</p>
                 <hr>
                 <p>Gracias por tu esfuerzo y dedicación,</p>
-                <p><strong>Escuela de Ingenieria - UTEM</strong></p>
+                <p><strong>Escuela de Informática - UTEM</strong></p>
             </div>
         `,
 
