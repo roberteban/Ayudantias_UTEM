@@ -9,7 +9,7 @@ const cardData = [
   {
     to: "/requisitos",
     icon: foto1,
-    title: "Postulación de Ayudantías",
+    title: "Postulación para Ayudantías",
     content: "¿Eres bueno programando? ",
     content2: "¡Postula a la ayudantia que mejor domines!"
   },

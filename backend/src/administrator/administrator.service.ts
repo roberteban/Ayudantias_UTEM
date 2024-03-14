@@ -47,17 +47,19 @@ export class AdministratorService {
         const msg = {
             to: correo,
             from: 'rcastillor@utem.cl',
-            subject: 'Postulación de Ayudantía',
-            text: `Hola ${nombre},\n\nPostulación de ayudantía en: ${asignatura} ha sido ha sido Aprobada`,
+            subject: 'Postulación para Ayudantías de la Escuela de Informática',
+            text: `Hola ${nombre},\n\nPostulación para ayudantía en: ${asignatura} ha sido ha sido Aprobada`,
             html: `
             <div style="font-family: Arial, sans-serif; color: #333;">
                 <h2>Hola ${nombre},</h2>
                 <p>¡Tenemos excelentes noticias!</p>
-                <p>Tu postulación de ayudantía para la asignatura <strong>${asignatura}</strong> ha sido <span style="color: #27ae60;"><strong>aprobada</strong></span>.</p>
-                <p>Pronto recibirás más detalles sobre los siguientes pasos a seguir.</p>
+                <p>Tu postulación para ayudantía en la asignatura <strong>${asignatura}</strong> ha sido <span style="color: #27ae60;"><strong>aprobada</strong></span>.</p>
+                <p>Pronto recibirás más detalles sobre los siguientes pasos a seguir,</p>
+                <p>Gracias por tu esfuerzo y dedicación.</p>
                 <hr>
-                <p>Gracias por tu esfuerzo y dedicación,</p>
                 <p><strong>Escuela de Informática - UTEM</strong></p>
+                <p><a href="http://informatica.utem.cl/">http://informatica.utem.cl/</a></p>
+                <p>Fono: 56 22787 7100</p>
             </div>
         `,
 
