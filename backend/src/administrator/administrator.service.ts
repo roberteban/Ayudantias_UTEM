@@ -53,7 +53,7 @@ export class AdministratorService {
             <div style="font-family: Arial, sans-serif; color: #333;">
                 <h2>Hola ${nombre},</h2>
                 <p>¡Tenemos excelentes noticias!</p>
-                <p>Tu postulación para la ayudantía en la asignatura <strong>${asignatura}</strong> ha sido <span style="color: #27ae60;"><strong>aprobada</strong></span>.</p>
+                <p>Nos complace informarte que tu postulación para la ayudantía en la asignatura <strong>${asignatura}</strong> ha sido <span style="color: #27ae60;"><strong>aprobada</strong></span>.</p>
                 <p>Pronto recibirás más detalles sobre los siguientes pasos a seguir.</p>
                 <p>Gracias por tu esfuerzo y dedicación.</p>
                 <hr>
