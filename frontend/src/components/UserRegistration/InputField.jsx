@@ -7,7 +7,7 @@ function InputField({ label, id, name, value, onChange, type = "text" }) {
       <br/>
       <input
         type={type}
-        className="form-control"
+        className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-1 focus:ring-black focus:border-black"
         id={id}
         name={name}
         value={value}

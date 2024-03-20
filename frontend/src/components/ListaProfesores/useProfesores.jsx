@@ -38,7 +38,8 @@ const useProfesores = () => {
         if (searchTerm) {
             results = results.filter(profesor =>
                 (profesor.nombre && profesor.nombre.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                (profesor.correo && profesor.correo.toLowerCase().includes(searchTerm.toLowerCase()))
+                (profesor.correo && profesor.correo.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                (profesor.rut && profesor.rut.toLowerCase().includes(searchTerm.toLowerCase()))
             );
         }
 

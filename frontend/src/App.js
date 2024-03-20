@@ -20,13 +20,13 @@ import ListaProfesores from "./components/ListaProfesores/ListaProfesores";
 import Header from "./components/header/Header";
 import ListApplications from "./components/AadminPanel/ListApplications";
 import DetailApplicationProfessor from "./components/ApplicantDetailsForProfessor/DetailApplicationProfessor";
-
+import KeepSubject from "./components/KeepSubject/KeepSubject";
 function App() {
   return (
     <div>
 
       <Router>
-        <Header  />
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/requisitos" element={<Requisitos />} />
@@ -45,11 +45,21 @@ function App() {
           <Route path="/requisitos-admin" element={<RequisitosAdmin />} />
 
           <Route
-          
+
             path="/admin"
             element={
               <RutaProtegidaAdmin>
                 <AdminIn />
+              </RutaProtegidaAdmin>
+            }
+          />
+
+          <Route
+
+            path="/admin/mantener-asignaturas"
+            element={
+              <RutaProtegidaAdmin>
+                <KeepSubject />
               </RutaProtegidaAdmin>
             }
           />
@@ -81,7 +91,7 @@ function App() {
             }
           />
 
-       
+
           <Route
             path="/adminin/:rut"
             element={

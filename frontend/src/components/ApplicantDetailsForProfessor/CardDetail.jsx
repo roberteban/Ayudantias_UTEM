@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import Modal from "./Modal";
 import Spinner from "../spinner/Spinner";
+import { API } from "../../API";
+
 
 export function CardDetail({
     postulante,
@@ -20,15 +22,49 @@ export function CardDetail({
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalMessage, setModalMessage] = useState("");
     const [actionType, setActionType] = useState("");
+    const [comment, setComment] = useState('');
+
+    const handleCommentChange = (e) => {
+        setComment(e.target.value);
+    };
+
+    const handleCommentSubmit = async () => {
+        if (!comment.trim()) {
+            alert('Por favor, ingresa un comentario.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API}/api/profesor/comment`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: postulante.id_postulante,
+                    comment: comment,
+                }),
+            });
+
+            if (response.ok) {
+                alert('Comentario enviado con éxito.');
+                setComment('');
+            } else {
+                alert('Hubo un problema al enviar tu comentario.');
+            }
+        } catch (error) {
+            console.error('Error al enviar el comentario:', error);
+            alert('Error al enviar el comentario.');
+        }
+    };
+
+
 
     const handleOpenModal = (type) => () => {
         setActionType(type);
         setModalMessage(`${type === "Evaluado Positivamente" ? "Evaluado Positivamente" : "Evaluado Negativamente"}`);
         setIsModalOpen(true);
     };
-
-
-
 
 
     const handleConfirm = () => {
@@ -39,8 +75,6 @@ export function CardDetail({
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-
-
 
 
     return (
@@ -134,7 +168,13 @@ export function CardDetail({
                             <dt className="text-sm font-medium text-gray-500">Profesor</dt>
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 {nombreProfesor}
+                            </dd>
+                        </div>
 
+                        <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt className="text-sm font-medium text-gray-500">Comentarios</dt>
+                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                {postulante.comentario || 'Sin comentarios'}
                             </dd>
                         </div>
 
@@ -142,6 +182,28 @@ export function CardDetail({
                             <dd className="flex justify-center mt-1 text-lg leading-6 font-medium text-gray-900">
                                 <h3>Desempeño del ayudante</h3>
                             </dd>
+                        </div>
+
+
+                        <div className="bg-gray-50 px-4 py-4 sm:px-6 border-gray-200">
+                            <div className="mt-1">
+                                <textarea
+                                    value={comment}
+                                    onChange={handleCommentChange}
+                                    className="p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                    placeholder="Escribe un comentario..."
+                                    rows="3"
+                                ></textarea>
+                            </div>
+                            <div className="py-3 text-right">
+                                <button
+                                    onClick={handleCommentSubmit}
+                                    type="button"
+                                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                >
+                                    Enviar
+                                </button>
+                            </div>
                         </div>
 
                         {tokenProfesor && (
@@ -152,14 +214,13 @@ export function CardDetail({
                                     onClick={handleOpenModal('Evaluado Negativamente')}
                                     type="button"
                                     className="w-full sm:w-auto focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                                >Reprobado</button>
+                                >Deficiente</button>
 
                                 <button
                                     onClick={handleOpenModal('Evaluado Positivamente')}
                                     type="button"
                                     className="w-full sm:w-auto focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                                >Aprobado</button>
-
+                                >Excelente</button>
 
 
                                 <Modal
@@ -168,9 +229,6 @@ export function CardDetail({
                                     onCancel={handleCancel}
                                     message={modalMessage}
                                 />
-
-
-
 
                             </div>
                         )}

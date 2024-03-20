@@ -3,11 +3,15 @@ import { API } from '../../API'
 import InputField from '../UserRegistration/InputField';
 import Spinner from '../spinner/Spinner';
 import Toasts from '../UserRegistration/Toasts';
+import Cleave from 'cleave.js/react';
+
+
 export default function RegistrarProfesor() {
     const API_URL = `${API}/api/register-profesor`;
     const initialState = {
         nombre: '',
         correo: '',
+        rut: '',
     };
     const [formData, setFormData] = useState(initialState);
     const [isLoading, setIsLoading] = useState(false);
@@ -42,6 +46,7 @@ export default function RegistrarProfesor() {
         e.preventDefault();
         if (!validarFormulario()) return;
         setIsLoading(true);
+        console.log('Formulario enviado:', formData);
         try {
             const response = await fetch(API_URL, {
                 method: 'POST',
@@ -63,6 +68,10 @@ export default function RegistrarProfesor() {
             setShowToat(true);
         }
     };
+    const handleCleaveChange = (e) => {
+        setFormData({ ...formData, rut: e.target.rawValue });
+    };
+
 
     return (
         <>
@@ -83,6 +92,25 @@ export default function RegistrarProfesor() {
                         <InputField label="Nombre Completo" id="nombre" name="nombre" value={formData.nombre} onChange={handleChange} />
 
                         <InputField label="Correo UTEM" id="correo" name="correo" value={formData.correo} onChange={handleChange} />
+
+
+                        <div className="mb-3">
+                            <label htmlFor="rut" className="block mb-2 text-sm">
+                                RUT
+                            </label>
+                            <Cleave
+                                options={{
+                                    blocks: [2, 3, 3, 1],
+                                    delimiters: ['.', '.', '-'],
+                                    numericOnly: false,
+                                }}
+                                onChange={handleCleaveChange}
+                                value={formData.rut}
+                                className="block w-full focus:ring-blue-500 focus:border-blue-500 p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                                required
+                            />
+                        </div>
+
 
 
                         <div className='mt-6 pt-4 flex justify-end items-end'>

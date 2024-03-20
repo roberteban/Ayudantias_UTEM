@@ -69,8 +69,10 @@ function Header() {
                 <Dropdown.Item as={Link} to="/admin/lista-profesores">Ver Lista de Profesores</Dropdown.Item>
                 <Dropdown.Item as={Link} to="/admin/ayudantes">Ver Lista de Ayudantes</Dropdown.Item>
                 <Dropdown.Item as={Link} to="/admin/registrar-profesor">Registrar Profesor</Dropdown.Item>
+                <Dropdown.Item as={Link} to="/admin/mantener-asignaturas">Mantener Asignaturas</Dropdown.Item>
                 <Dropdown.Item as={Link} to="/requisitos-admin">Requisitos</Dropdown.Item>
-                <Dropdown.Item onClick={generarPDF}>Generar Archivo</Dropdown.Item>
+                <Dropdown.Item onClick={generarPDF}>Generar CSV</Dropdown.Item>
+
 
               </Dropdown.Menu>
 
@@ -142,8 +144,10 @@ function Header() {
               <Nav.Link as={Link} to="/admin/lista-profesores" onClick={handleClose}>Ver Lista de Profesores</Nav.Link>
               <Nav.Link as={Link} to="/admin/ayudantes" onClick={handleClose}>Ver Lista de Ayudantes</Nav.Link>
               <Nav.Link as={Link} to="/admin/registrar-profesor" onClick={handleClose}>Registrar Profesor</Nav.Link>
+              <Nav.Link as={Link} to="/admin/mantener-asignaturas" onClick={handleClose} >Mantener Asignaturas</Nav.Link>
               <Nav.Link as={Link} to="/requisitos-admin" onClick={handleClose}>Requisitos</Nav.Link>
-              <Nav.Link onClick={() => { generarPDF(); handleClose(); }}>Generar PDF</Nav.Link>
+
+              <Nav.Link onClick={() => { generarPDF(); handleClose(); }}>Generar CSV</Nav.Link>
               <Nav.Link as={Link} to="/cambiar-contrasena" onClick={handleClose}>Cambiar Contraseña</Nav.Link>
               <Nav.Link onClick={closeSesion}>Salir</Nav.Link>
 

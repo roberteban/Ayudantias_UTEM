@@ -6,19 +6,18 @@ export const useGenerarPdf = () => {
     const generarPDF = async () => {
         try {
             const response = await axios({
-                url: `${API}/api/adminin/create-pdf`, // Asegúrate de que la URL coincida con tu configuración del servidor
+                url: `${API}/api/adminin/create-csv`, 
                 method: 'POST',
-                responseType: 'blob', // Importante
+                responseType: 'blob',
                 data: {
                 }
             });
 
-            // Crear un enlace para descargar el PDF
-            const file = new Blob([response.data], { type: 'application/pdf' });
+            const file = new Blob([response.data], { type: 'application/csv' });
             const fileURL = URL.createObjectURL(file);
             const link = document.createElement('a');
             link.href = fileURL;
-            link.setAttribute('download', 'Reporte.pdf'); // cualquier nombre de archivo
+            link.setAttribute('download', 'Reporte.csv'); 
             document.body.appendChild(link);
             link.click();
         } catch (error) {
