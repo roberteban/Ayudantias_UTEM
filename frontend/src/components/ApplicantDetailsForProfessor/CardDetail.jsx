@@ -89,10 +89,10 @@ export function CardDetail({
 
                 <div className="flex flex-col items-center justify-center px-4 py-5 sm:px-6">
                     <h3 className="text-lg leading-6 font-medium text-gray-900">
-                        Detalles del Postulante
+                        Detalles del Ayudante
                     </h3>
                     <p className="mt-1 text-sm text-gray-500 text-center">
-                        Información detallada sobre el postulante.
+                        Información Detallada del Ayudante.
                     </p>
                 </div>
 
@@ -180,7 +180,7 @@ export function CardDetail({
 
                         <div className="flex justify-center bg-gray-50 px-4 py-3 sm:grid pt-5 border-t border-gray-200">
                             <dd className="flex justify-center mt-1 text-lg leading-6 font-medium text-gray-900">
-                                <h3>Desempeño del ayudante</h3>
+                                <h3>Desempeño del Ayudante</h3>
                             </dd>
                         </div>
 
@@ -214,13 +214,13 @@ export function CardDetail({
                                     onClick={handleOpenModal('Evaluado Negativamente')}
                                     type="button"
                                     className="w-full sm:w-auto focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                                >Deficiente</button>
+                                >Reprobado</button>
 
                                 <button
                                     onClick={handleOpenModal('Evaluado Positivamente')}
                                     type="button"
                                     className="w-full sm:w-auto focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                                >Excelente</button>
+                                >Aprobado</button>
 
 
                                 <Modal
