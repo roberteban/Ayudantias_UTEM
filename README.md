@@ -20,6 +20,8 @@ Sistema web diseñado para **automatizar y optimizar** el proceso de postulació
   - Asignación de ayudantes
   - Generación de reportes CSV
   - Configuración de periodos académicos
+- Automatización:
+  - Envío de correos electrónicos y actualización de estados.
 
 ## 🛠 Tecnologías utilizadas
 ### Frontend
@@ -42,3 +44,20 @@ Sistema web diseñado para **automatizar y optimizar** el proceso de postulació
 - PostgreSQL 15+
 - Cuenta en SendGrid
 
+## 📂 Estructura del proyecto
+/backend
+  ├── src/
+  │   ├── modules/       # Microservicios (Auth, Admin, Apps)
+  │   ├── models/        # Entidades de PostgreSQL
+  │   └── main.ts        # Configuración principal
+/frontend
+  ├── public/            # Assets estáticos
+  ├── src/
+  │   ├── components/    # Componentes React
+  │   ├── pages/         # Vistas principales (Home, Postulación, Administrador)
+  │   └── App.js         # Configuración principal
+
+## ✉️ Contacto
+- Autor: Roberto Castillo Riquelme
+- Correo: rcastillor@utem.cl
+- Escuela de Informática UTEM
