@@ -1,22 +1,20 @@
 # Sistema de Postulación para Ayudantías - UTEM
 
-![UTEM Logo](https://informatica.utem.cl/wp-content/uploads/2021/04/logo-utem-1.png)
-
 ## 📌 Descripción
 Sistema web diseñado para **automatizar y optimizar** el proceso de postulación a ayudantías en la Escuela de Informática de la UTEM. Desarrollado como trabajo de titulación para Ingeniería Civil en Computación.
 
 ## ✨ Características principales
-### 👨‍🎓 Para estudiantes
+### Para estudiantes
 - Postulación en línea con validación de datos
 - Consulta del estado de postulación (Postulando/Asignado/Evaluado)
 - Notificaciones por correo electrónico
 
-### 👨‍🏫 Para profesores
+### Para profesores
 - Evaluación de ayudantes (Aprobado/Reprobado)
 - Visualización de estudiantes asignados
 - Comentarios justificativos
 
-### 👨‍💼 Para administradores
+### Para administradores
 - Gestión completa del proceso:
   - Registro de profesores y asignaturas
   - Asignación de ayudantes
