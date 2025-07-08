@@ -63,7 +63,6 @@ Sistema web diseñado para **automatizar y optimizar** el proceso de postulació
   │   ├── pages/         # Vistas principales (Home, Postulación, Administrador)
   │   └── App.js         # Configuración principal
 ```
-
 ## ✉️ Contacto
 - **Autor**: Roberto Castillo Riquelme  
 - **Correo**: [rcastillor@utem.cl](mailto:rcastillor@utem.cl)  
